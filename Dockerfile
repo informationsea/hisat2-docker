@@ -16,6 +16,10 @@ RUN curl -o hisat2-220-Linux_x86_64.zip -L https://cloud.biohpc.swmed.edu/index.
 RUN unzip hisat2-220-Linux_x86_64.zip
 
 FROM debian:10-slim
+RUN apt-get update && \
+    apt-get install -y ncurses-base zlib1g liblzma5 libbz2-1.0 curl libcurl4 && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 COPY --from=samtools-build /usr/local /usr/local
 COPY --from=download /download/hisat2-2.2.0 /opt/hisat2-2.2.0
 ENV PATH=/opt/hisat2-2.2.0:${PATH}
